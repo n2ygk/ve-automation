@@ -41,5 +41,21 @@ $ ./testscript.sh
 CSCE-JohnDoe-1.pdf
 ```
 
+### How it works
+
+1. Obtain an official ARRL/VEC CSCE PDF form from the VEC.
+2. Use pdf2ps to convert (back) to PostScript.
+3. Sets the EPSF2Write flag to False so that the annotations get added on the same page.
+4. Annotates with some simple PostScript tacked on to the end of the file:
+   ```
+   gsave
+   0 0 255 setrgbcolor
+   /Helvetica findfont 14 scalefont setfont
+   newpath
+   100 325 moveto ($SITE) show
+   ...
+   grestore
+   ```
+
 
 
