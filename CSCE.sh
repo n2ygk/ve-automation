@@ -1,24 +1,35 @@
 #!/bin/sh
-# convert the PDF to PostScript
-# and tweak the EPSFlag to false so we can tack on our text at the end
-# TOOD: get these from environment:
-SITE="New York, NY"
-DATE="5/4/2020"
-VE1="W2RTC"
-VE2="N2YGN"
-VE3="KD2HLE"
-CALL="NONE"
-NAME="John Doe"
-ADDR="123 Main St"
-CITY="Brooklyn"
-STATE="NY"
-ZIP="12345"
-EARNED="T" # T|G|E
-PASS2="X"
-PASS3=""
-PASS4=""
-CRED3=""
-CRED4=""
+# Ths script "fills in" the ARRL/VEC CSCE PDF which was supplied to you by the VEC:
+TEMPLATE="CSCE_2020_Fully Interactive.pdf"
+
+# These variables are used to fill in the form. If they are missing, nothing shows up.
+# N.B. There is no error checking for missing variables.
+# get these from environment:
+# SITE="New York, NY"
+# DATE="5/4/2020"
+# VE1="W2RTC"
+# VE2="N2YGN"
+# VE3="KD2HLE"
+# CALL="NONE"
+# FIRST="John"
+# MIDDLE="Q"
+# LAST="Doe"
+# SUFFIX="Jr"
+# ADDR="123 Main St"
+# CITY="Brooklyn"
+# STATE="NY"
+# ZIP="12345"
+# EARNED="T" # T|G|E for Tech, General, Extra
+# either an X for passed/earned or blank:
+# PASS2="X"
+# PASS3=""
+# PASS4=""
+# CRED3=""
+# CRED4=""
+
+# squeeze out extra spaces if no middle initial, for example.
+NAME=`echo $FIRST $MIDDLE $LAST $SUFFIX`
+FILENAME=`echo CSCE-${FIRST}${LAST}-1.pdf`
 
 # now some logic to check off and cross things out
 CLOBBER="==========="
@@ -59,12 +70,13 @@ if [ -z "$CRED4" ]; then
     CRED4CLOBBER=$CLOBBER
 fi
 
+# Cache a copy of the converted PDF file.
+# Tweak the EPSFlag to false so we can tack on our postscript at the end and have it render on top of the CSCE form.
 if [ ! -f CSCE_template.ps ]; then
-    pdf2ps CSCE_2020_Fully\ Interactive.pdf - \
-	| sed -e 's:^/EPS2Write false def:/EPS2Write true def:' > CSCE_template.ps 
+    pdf2ps "$TEMPLATE" - | sed -e 's:^/EPS2Write false def:/EPS2Write true def:' > CSCE_template.ps 
 fi
 
-# replace this at the end of the .ps file
+# Replace this at the end of the .ps file:
 #   %%Trailer
 #   end
 #   %%EOF
@@ -109,4 +121,6 @@ grestore
 end
 %%EOF
 EOF
-) | ps2pdf - csce.pdf
+) | ps2pdf - "$FILENAME"
+echo >&2 $FILENAME
+
