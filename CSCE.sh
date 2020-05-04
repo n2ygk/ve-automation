@@ -70,6 +70,12 @@ if [ -z "$CRED4" ]; then
     CRED4CLOBBER=$CLOBBER
 fi
 
+# some more sanity checking: can't have earned a license without passing an element or having had element credit.
+if [ -z "${PASS2}${PASS3}${PASS4}${CRED3}${CRED4}" ]; then
+    echo >&2 'They must have passed something or come in with credit!'
+    exit 1
+fi
+
 # Cache a copy of the converted PDF file.
 # Tweak the EPSFlag to false so we can tack on our postscript at the end and have it render on top of the CSCE form.
 if [ ! -f CSCE_template.ps ]; then
