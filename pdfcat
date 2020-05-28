@@ -1,0 +1,10 @@
+#!/bin/bash
+# concatenate pdf files into an output file
+Usage="$0 output.pdf input..."
+if [ $# -lt 1 ]; then
+    echo $Usage
+    exit 1
+fi
+output=$1
+shift
+gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -sOutputFile=$output $*

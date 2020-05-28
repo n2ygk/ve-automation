@@ -2,7 +2,28 @@
 
 Here are just a few (one?) tools for automating our VE Session:
 
+## pdfcat
+
+This is just a simple shell script that invokes Ghostscript to concatenate multiple PDF files.
+
+Example usage:
+
+```text
+$ ./pdfcat package.pdf report-20200527.pdf session-20200527.pdf VE-20200527.pdf CSCE-JohnDoe-4.pdf  605-JohnDoer-4.pdf answers-JohnDoe.pdf answers-JohnPublic.pdf CSCE-JaneDoe-4.pdf 605-JaneDoe-4.pdf answers-JaneDoe.pdf
+GPL Ghostscript 9.52 (2020-03-19)
+Copyright (C) 2020 Artifex Software, Inc.  All rights reserved.
+This software is supplied under the GNU AGPLv3 and comes with NO WARRANTY:
+see the file COPYING for details.
+Processing pages 1 through 1.
+Page 1
+...
+$
+```
+
 ## CSCE.sh
+
+**N.B.** As of 5/26/20 we are using Examtools v2 which incorporates form signing into the app. This is no
+longer needed.
 
 ![alt-text](./CSCE_sample.png "Sample filled-in CSCE form")
 
@@ -56,6 +77,4 @@ CSCE-JohnDoe-1.pdf
    ...
    grestore
    ```
-
-
 
