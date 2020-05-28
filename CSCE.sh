@@ -31,6 +31,11 @@ TEMPLATE="CSCE_2020_Fully Interactive.pdf"
 NAME=`echo $FIRST $MIDDLE $LAST $SUFFIX`
 FILENAME=`echo CSCE-${FIRST}${LAST}-1.pdf`
 
+if [ -z "$DATE" ]; then
+    echo >&2 Fill in the date.
+    exit 1
+fi
+
 # now some logic to check off and cross things out
 CLOBBER="==========="
 case $EARNED in
