@@ -7,4 +7,4 @@ if [ $# -lt 1 ]; then
 fi
 output=$1
 shift
-gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -sOutputFile=$output $*
+gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -dAutoRotatePages=/None -sOutputFile=$output $*
